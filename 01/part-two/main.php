@@ -1,43 +1,53 @@
 <?php
 
-const SPELLED_DIGITS = ['one' => '1', 'two' => '2', 'three' => '3', 'four' => '4', 'five' => '5', 'six' => '6', 'seven' => '7', 'eight' => '8', 'nine' => '9'];
-const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const DIGITS = [
+    'one' => '1',
+    'two' => '2',
+    'three' => '3',
+    'four' => '4',
+    'five' => '5',
+    'six' => '6',
+    'seven' => '7',
+    'eight' => '8',
+    'nine' => '9',
+    '1' => '1',
+    '2' => '2',
+    '3' => '3',
+    '4' => '4',
+    '5' => '5',
+    '6' => '6',
+    '7' => '7',
+    '8' => '8',
+    '9' => '9',
+];
 
 function getSumOfFirstAndLastNumber(string $inputLine): int
 {
-    // TODO find combined
-    $combinedSpelledDigits = findCombinedSpelledDigits();
+    $positions = [];
+    foreach (DIGITS as $digit => $value) {
+        $offset = 0;
+        $currentPos = strpos($inputLine, $digit, $offset);
+        while (false !== $currentPos) {
+            $positions[$currentPos] = $value;
+            $offset = $currentPos + 1;
+            $currentPos = strpos($inputLine, $digit, $offset);
+        }
+    }
 
-    $normalizedString = str_replace(
-        array_keys($combinedSpelledDigits),
-        $combinedSpelledDigits,
-        $inputLine,
-    );
+    ksort($positions);
 
-    $normalizedString = str_replace(
-        array_keys(SPELLED_DIGITS),
-        SPELLED_DIGITS,
-        $normalizedString,
-    );
-
-    echo sprintf('%s -> %s', $inputLine, $normalizedString);
+    $normalizedString = implode('', $positions);
 
     $numbersOnlyString = preg_replace('/\D+/', '', $normalizedString);
 
-    echo sprintf(" -> %s\n", $numbersOnlyString);
-
     $firstNumber = $numbersOnlyString[0];
 
-    $result = strlen($numbersOnlyString) === 1
+    return strlen($numbersOnlyString) === 1
         ? (int)sprintf('%s%s', $firstNumber, $firstNumber)
         : (int)sprintf('%s%s', $firstNumber, $numbersOnlyString[-1]);
-
-    echo sprintf(" -> %s\n\n", $result);
-
-    return $result;
 }
 
-$inputLines = file('example.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+$inputLines = file('../input.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 $sum = array_reduce(
     $inputLines,
