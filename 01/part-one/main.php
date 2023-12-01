@@ -1,6 +1,6 @@
 <?php
 
-function getSumOfFirstAndLastNumber(string $inputLine): int
+function getFirstAndLastDigitAsInt(string $inputLine): int
 {
     $numbersOnlyString = preg_replace('/\D+/', '', $inputLine);
 
@@ -16,7 +16,7 @@ $inputLines = file('../input.txt', FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES);
 
 $sum = array_reduce(
     $inputLines,
-    static fn(int $currenSum, string $inputLine) => $currenSum + getSumOfFirstAndLastNumber($inputLine),
+    static fn(int $currenSum, string $inputLine) => $currenSum + getFirstAndLastDigitAsInt($inputLine),
     0
 );
 

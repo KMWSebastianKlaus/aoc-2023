@@ -21,7 +21,7 @@ const DIGITS = [
     '9' => '9',
 ];
 
-function getSumOfFirstAndLastNumber(string $inputLine): int
+function getFirstAndLastDigitAsInt(string $inputLine): int
 {
     $positions = [];
     foreach (DIGITS as $digit => $value) {
@@ -51,7 +51,7 @@ $inputLines = file('../input.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
 
 $sum = array_reduce(
     $inputLines,
-    static fn(int $currenSum, string $inputLine) => $currenSum + getSumOfFirstAndLastNumber($inputLine),
+    static fn(int $currenSum, string $inputLine) => $currenSum + getFirstAndLastDigitAsInt($inputLine),
     0
 );
 
